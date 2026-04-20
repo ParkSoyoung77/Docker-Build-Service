@@ -58,7 +58,9 @@ jobs:
           username: ec2-user  # Amazon Linux 기준
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            docker rm -f fastapi-docker-spa nginx-docker-spa 2>/dev/null
+            docker rm -f fastapi-docker-spa nginx-docker-spa 2>/dev/null || true
+            
+            sudo systemctl stop nginx 2>/dev/null || true
             
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fastapi:docker-spa
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nginx:docker-spa
